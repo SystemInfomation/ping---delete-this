@@ -50,7 +50,7 @@ async function pingAll() {
 }
 
 pingAll();
-setInterval(pingAll, 1000);
+setInterval(pingAll, 6000);
 
 app.get('/api/status', (req, res) => {
   res.json(statusData);
