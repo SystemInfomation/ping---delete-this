@@ -1,73 +1,660 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <title>Instructure Monitor</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Balloon Crew Gas Laws</title>
+  <link rel="icon" type="image/svg+xml" href="https://public.canva.site/logo/media/dfb96cc174513093cd6ed61489ccb750.svg" />
   <style>
+    :root {
+      --bg: #f4f6fb;
+      --card: #ffffff;
+      --ink: #222c3a;
+      --muted: #5f6775;
+      --line: #d4dbe8;
+      --blue: #4b66d6;
+      --orange: #d18a35;
+      --green: #2f947f;
+      --pink: #b5567a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial;
-      background: #0f172a;
-      color: white;
-      padding: 20px;
+      margin: 0;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
     }
 
-    .grid {
+    .slides {
+      width: min(1100px, 94vw);
+      margin: 12px auto 88px;
+      position: relative;
+    }
+
+    .slide {
+      display: none;
+      min-height: calc(100vh - 130px);
+      background: var(--card);
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 4px 10px rgba(31, 41, 55, 0.08);
+      padding: clamp(18px, 2.4vw, 26px);
+      position: relative;
+      overflow: auto;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    .slide-label {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      font-size: 0.75rem;
+      color: #4c576c;
+      background: #f5f7fc;
+      border: 1px solid #d8dfeb;
+      border-radius: 999px;
+      padding: 3px 9px;
+    }
+
+    .slide-credit {
+      position: absolute;
+      left: 16px;
+      bottom: 14px;
+      font-size: 0.76rem;
+      color: #5c6677;
+      background: #f7f8fc;
+      border: 1px solid #dce2ec;
+      border-radius: 999px;
+      padding: 3px 9px;
+      font-weight: 700;
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 3.6vw, 2.4rem);
+    }
+
+    h2 {
+      font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+    }
+
+    p, li {
+      line-height: 1.55;
+      font-size: clamp(0.98rem, 1.45vw, 1.04rem);
+    }
+
+    .subtitle {
+      color: #33415d;
+      font-size: 1.1rem;
+      margin: 8px 0 4px;
+    }
+
+    .author {
+      font-weight: 700;
+      color: #1f4368;
+      margin-bottom: 22px;
+    }
+
+    .hero {
+      border: 1px solid #cfd9ea;
+      border-radius: 10px;
+      padding: 16px;
+      background: #f9fbff;
+    }
+
+    .balloons {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .balloon {
+      width: 76px;
+      height: 96px;
+      border-radius: 50% 50% 45% 45%;
+      border: 2px solid #344a63;
+      position: relative;
+    }
+
+    .balloon::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -20px;
+      width: 2px;
+      height: 20px;
+      background: #344a63;
+    }
+
+    .b1 { background: #b7d7ff; }
+    .b2 { background: #ffd7ad; }
+    .b3 { background: #b7efd9; }
+    .b4 { background: #ffc6da; }
+
+    .chip {
+      display: inline-block;
+      color: #f9fbff;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .boyle { background: var(--blue); }
+    .charles { background: var(--orange); }
+    .gay { background: var(--green); }
+    .combined { background: var(--pink); }
+
+    .eq {
+      font-family: "Menlo", "Consolas", monospace;
+      background: #f2f6ff;
+      border: 1px solid #cfdbf2;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin: 12px 0;
+      font-size: 1.05rem;
+    }
+
+    .two-col {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 15px;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 18px;
     }
 
-    .card {
-      background: #1e293b;
-      padding: 15px;
-      border-radius: 12px;
+    .diagram {
+      border: 1px solid #cfd8e8;
+      border-radius: 10px;
+      padding: 12px;
+      background: #fafcff;
     }
 
-    .online { color: #22c55e; }
-    .offline { color: #ef4444; }
+    .box {
+      border: 1px solid #8fa2bf;
+      border-radius: 8px;
+      padding: 9px;
+      background: #f3f7ff;
+      text-align: center;
+      margin: 7px 0;
+    }
 
-    .meta {
-      font-size: 13px;
-      color: #cbd5e1;
-      margin-top: 8px;
+    .arrow {
+      text-align: center;
+      font-size: 1.05rem;
+    }
+
+    .toc {
+      margin-top: 12px;
+      padding-left: 20px;
+    }
+
+    .toc li {
+      margin: 8px 0;
+    }
+
+    .toc button {
+      border: none;
+      background: none;
+      color: #2758c7;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+      font: inherit;
+      padding: 0;
+      text-align: left;
+    }
+
+    .appendix-card, .term {
+      border: 1px solid #d8e0ec;
+      border-radius: 10px;
+      background: #fdfefe;
+      padding: 12px;
+      margin: 10px 0;
+    }
+
+    .calc {
+      white-space: pre-wrap;
+      font-family: "Menlo", "Consolas", monospace;
+      font-size: 0.93rem;
+      background: #f3f7ff;
+      border-radius: 8px;
+      padding: 9px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .nav {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #ffffff;
+      border-top: 1px solid #d7deea;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      z-index: 10;
+    }
+
+    .nav button {
+      border: 1px solid #c5d1e5;
+      background: #fff;
+      color: #244161;
+      border-radius: 7px;
+      padding: 9px 14px;
+      font-size: 0.92rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .nav button:hover {
+      background: #f3f7ff;
+    }
+
+    .canva-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #0b2f4c;
+      text-decoration: none;
+      border: 1px solid #c5d1e5;
+      background: #fff;
+      border-radius: 7px;
+      padding: 9px 14px;
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .canva-button:hover {
+      background: #f3f7ff;
+    }
+
+    .canva-logo {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+
+    .counter {
+      min-width: 110px;
+      text-align: center;
+      color: #43516a;
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .made-with-canva {
+      position: fixed;
+      right: 12px;
+      bottom: 64px;
+      z-index: 20;
+      background: #ffffff;
+      border: 1px solid #d7deea;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.82rem;
+      color: #2d3a52;
+      box-shadow: 0 2px 8px rgba(31, 41, 55, 0.08);
+    }
+
+    .made-with-canva a {
+      color: #2758c7;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .made-with-canva a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 860px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
-
 <body>
-  <h1>Instructure Status Monitor</h1>
-  <div class="grid" id="grid"></div>
+  <main class="slides" id="slides">
+    <section class="slide active" id="slide-1">
+      <span class="slide-label">Slide 1</span>
+      <span class="slide-credit">James Watson</span>
+      <h1>The Balloon Crew's Gas Law Adventure</h1>
+      <p class="subtitle">A kids book about gas laws</p>
+      <p class="author">By James Watson</p>
+      <div class="hero">
+        <p><strong>Theme:</strong> Balloon Adventure Crew</p>
+        <p>Bo, Char, Gigi, and Combi explain the unit in simple words and examples.</p>
+        <div class="balloons">
+          <div class="balloon b1" aria-hidden="true"></div>
+          <div class="balloon b2" aria-hidden="true"></div>
+          <div class="balloon b3" aria-hidden="true"></div>
+          <div class="balloon b4" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2">
+      <span class="slide-label">Slide 2</span>
+      <span class="slide-credit">James Watson</span>
+      <h2>Table of Contents</h2>
+      <ol class="toc">
+        <li><button data-target="slide-3">Page 3: Boyle's Law story</button></li>
+        <li><button data-target="slide-4">Page 4: Boyle's Law equation + diagram</button></li>
+        <li><button data-target="slide-5">Page 5: Charles' Law story</button></li>
+        <li><button data-target="slide-6">Page 6: Charles' Law equation + diagram</button></li>
+        <li><button data-target="slide-7">Page 7: Gay-Lussac's Law story</button></li>
+        <li><button data-target="slide-8">Page 8: Gay-Lussac's Law equation + diagram</button></li>
+        <li><button data-target="slide-9">Page 9: Combined Gas Law story</button></li>
+        <li><button data-target="slide-10">Page 10: Combined Gas Law equation + diagram</button></li>
+        <li><button data-target="slide-11">Page 11: Appendix A</button></li>
+        <li><button data-target="slide-12">Page 12: Appendix B</button></li>
+        <li><button data-target="slide-13">Page 13: Glossary A</button></li>
+        <li><button data-target="slide-14">Page 14: Glossary B</button></li>
+      </ol>
+    </section>
+
+    <section class="slide" id="slide-3">
+      <span class="slide-label">Slide 3</span>
+      <span class="slide-credit">James Watson</span>
+      <span class="chip boyle">Boyle's Law</span>
+      <h2>Bo Gets Squished</h2>
+      <div class="two-col">
+        <div>
+          <p>Bo starts in a container with lots of space, then the container gets smaller.</p>
+          <p>When space gets tight, gas particles hit the walls more. That means pressure goes up.</p>
+          <p><strong>Kid version:</strong> Same kids, smaller room, more bumps.</p>
+          <p class="muted">Constant: temperature and amount of gas</p>
+        </div>
+        <aside class="diagram">
+          <h3>Diagram</h3>
+          <div class="box">Large container = low pressure</div>
+          <div class="arrow">Squish it down</div>
+          <div class="box">Small container = high pressure</div>
+          <p>Volume down, pressure up.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-4">
+      <span class="slide-label">Slide 4</span>
+      <span class="slide-credit">James Watson</span>
+      <span class="chip boyle">Boyle's Law</span>
+      <h2>Equation Page</h2>
+      <p><strong>Name of gas law:</strong> Boyle's Law</p>
+      <div class="eq">P1V1 = P2V2</div>
+      <p><strong>Concept:</strong> Pressure and volume go opposite ways when temperature stays the same.</p>
+      <div class="diagram">
+        <h3>Labeled example</h3>
+        <p>Before: P1 = 1.0 atm, V1 = 4.0 L</p>
+        <p>After: V2 = 2.0 L, so P2 = 2.0 atm</p>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-5">
+      <span class="slide-label">Slide 5</span>
+      <span class="slide-credit">James Watson</span>
+      <span class="chip charles">Charles' Law</span>
+      <h2>Char Heats Up</h2>
+      <div class="two-col">
+        <div>
+          <p>When Char gets warmer, particles move faster and spread out more.</p>
+          <p>So the balloon gets bigger if pressure stays the same.</p>
+          <p><strong>Kid version:</strong> Warm air moves more, so it needs more room.</p>
+          <p class="muted">Temperature must be in Kelvin.</p>
+        </div>
+        <aside class="diagram">
+          <h3>Diagram</h3>
+          <div class="box">Cold balloon = smaller volume</div>
+          <div class="arrow">Heat up</div>
+          <div class="box">Warm balloon = bigger volume</div>
+          <p>Temperature up, volume up.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-6">
+      <span class="slide-label">Slide 6</span>
+      <span class="slide-credit">James Watson</span>
+      <span class="chip charles">Charles' Law</span>
+      <h2>Equation Page</h2>
+      <p><strong>Name of gas law:</strong> Charles' Law</p>
+      <div class="eq">V1/T1 = V2/T2 (T in Kelvin)</div>
+      <p><strong>Concept:</strong> Volume and temperature go up together when pressure stays constant.</p>
+      <div class="diagram">
+        <h3>Labeled example</h3>
+        <p>Before: V1 = 1.5 L at T1 = 300 K</p>
+        <p>After: T2 = 450 K, so V2 = 2.25 L</p>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-7">
+      <span class="slide-label">Slide 7</span>
+      <span class="slide-credit">James Watson</span>
+      <span class="chip gay">Gay-Lussac's Law</span>
+      <h2>Gigi in a Sealed Can</h2>
+      <div class="two-col">
+        <div>
+          <p>Gigi is in a rigid can, so volume cannot change.</p>
+          <p>When it gets hotter, particles hit the walls harder, so pressure goes up.</p>
+          <p><strong>Kid version:</strong> Same room size, faster runners, stronger wall hits.</p>
+          <p class="muted">Constant: volume and amount of gas</p>
+        </div>
+        <aside class="diagram">
+          <h3>Diagram</h3>
+          <div class="box">Cool sealed can = lower pressure</div>
+          <div class="arrow">Heat up</div>
+          <div class="box">Hot sealed can = higher pressure</div>
+          <p>Temperature up, pressure up.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-8">
+      <span class="slide-label">Slide 8</span>
+      <span class="slide-credit">James Watson</span>
+      <span class="chip gay">Gay-Lussac's Law</span>
+      <h2>Equation Page</h2>
+      <p><strong>Name of gas law:</strong> Gay-Lussac's Law</p>
+      <div class="eq">P1/T1 = P2/T2 (T in Kelvin)</div>
+      <p><strong>Concept:</strong> Pressure and temperature go up together when volume stays constant.</p>
+      <div class="diagram">
+        <h3>Labeled example</h3>
+        <p>Before: P1 = 100 kPa at T1 = 250 K</p>
+        <p>After: T2 = 300 K, so P2 = 120 kPa</p>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-9">
+      <span class="slide-label">Slide 9</span>
+      <span class="slide-credit">James Watson</span>
+      <span class="chip combined">Combined Gas Law</span>
+      <h2>Combi Uses All Three Laws</h2>
+      <div class="two-col">
+        <div>
+          <p>Sometimes pressure, volume, and temperature all change at the same time.</p>
+          <p>The Combined Gas Law tracks all three together.</p>
+          <p><strong>Kid version:</strong> A balloon going up a mountain changes because the air around it changes too.</p>
+        </div>
+        <aside class="diagram">
+          <h3>Diagram</h3>
+          <div class="box">Start: P1, V1, T1</div>
+          <div class="arrow">Move to new condition</div>
+          <div class="box">End: P2, V2, T2</div>
+          <p>One equation connects both.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-10">
+      <span class="slide-label">Slide 10</span>
+      <span class="slide-credit">James Watson</span>
+      <span class="chip combined">Combined Gas Law</span>
+      <h2>Equation Page</h2>
+      <p><strong>Name of gas law:</strong> Combined Gas Law</p>
+      <div class="eq">(P1V1)/T1 = (P2V2)/T2</div>
+      <p><strong>Concept:</strong> The before-and-after values stay balanced if the gas amount is constant.</p>
+      <div class="diagram">
+        <h3>Labeled example</h3>
+        <p>Before: P1 = 1.2 atm, V1 = 3.0 L, T1 = 300 K</p>
+        <p>After: P2 = 1.0 atm, T2 = 250 K, solve V2 = 2.08 L</p>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-11">
+      <span class="slide-label">Slide 11</span>
+      <span class="slide-credit">James Watson</span>
+      <h2>Appendix: Sample Calculations (Part 1)</h2>
+      <div class="appendix-card">
+        <h3>1) Boyle's Law</h3>
+        <p><strong>Given:</strong> P1 = 1.5 atm, V1 = 4.0 L, V2 = 2.0 L. Find P2.</p>
+        <div class="calc">P1V1 = P2V2
+(1.5)(4.0) = P2(2.0)
+6.0 = 2.0P2
+P2 = 3.0 atm</div>
+      </div>
+      <div class="appendix-card">
+        <h3>2) Charles' Law</h3>
+        <p><strong>Given:</strong> V1 = 1.2 L, T1 = 300 K, T2 = 450 K. Find V2.</p>
+        <div class="calc">V1/T1 = V2/T2
+1.2/300 = V2/450
+V2 = (1.2 x 450)/300
+V2 = 1.8 L</div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-12">
+      <span class="slide-label">Slide 12</span>
+      <span class="slide-credit">James Watson</span>
+      <h2>Appendix: Sample Calculations (Part 2)</h2>
+      <div class="appendix-card">
+        <h3>3) Gay-Lussac's Law</h3>
+        <p><strong>Given:</strong> P1 = 95 kPa, T1 = 280 K, T2 = 350 K. Find P2.</p>
+        <div class="calc">P1/T1 = P2/T2
+95/280 = P2/350
+P2 = (95 x 350)/280
+P2 = 118.8 kPa</div>
+      </div>
+      <div class="appendix-card">
+        <h3>4) Combined Gas Law</h3>
+        <p><strong>Given:</strong> P1 = 1.0 atm, V1 = 2.5 L, T1 = 300 K, P2 = 1.2 atm, T2 = 330 K. Find V2.</p>
+        <div class="calc">(P1V1)/T1 = (P2V2)/T2
+(1.0 x 2.5)/300 = (1.2 x V2)/330
+(2.5 x 330)/300 = 1.2V2
+2.75 = 1.2V2
+V2 = 2.29 L</div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-13">
+      <span class="slide-label">Slide 13</span>
+      <span class="slide-credit">James Watson</span>
+      <h2>Glossary (Part 1)</h2>
+      <div class="term"><strong>Boyle's Law:</strong> Pressure and volume change opposite ways when temperature is constant. (p. 3-4, p. 11)</div>
+      <div class="term"><strong>Charles' Law:</strong> Volume and temperature change together when pressure is constant. (p. 5-6, p. 11)</div>
+      <div class="term"><strong>Gay-Lussac's Law:</strong> Pressure and temperature change together when volume is constant. (p. 7-8, p. 12)</div>
+      <div class="term"><strong>Combined Gas Law:</strong> One law that connects pressure, volume, and temperature at once. (p. 9-10, p. 12)</div>
+      <div class="term"><strong>Pressure (P):</strong> How hard gas particles push on container walls. (p. 3, p. 4, p. 7, p. 8)</div>
+      <div class="term"><strong>Volume (V):</strong> The amount of space gas takes up. (p. 3-6, p. 9-10)</div>
+    </section>
+
+    <section class="slide" id="slide-14">
+      <span class="slide-label">Slide 14</span>
+      <span class="slide-credit">James Watson</span>
+      <h2>Glossary (Part 2)</h2>
+      <div class="term"><strong>Temperature (T):</strong> A measure of how hot or cold something is. (p. 5-10)</div>
+      <div class="term"><strong>Kelvin (K):</strong> The temperature scale used in gas law equations. (p. 5, p. 6, p. 8, p. 11-12)</div>
+      <div class="term"><strong>Atmosphere (atm):</strong> A pressure unit. (p. 4, p. 10, p. 11)</div>
+      <div class="term"><strong>kPa:</strong> Kilopascal, another pressure unit. (p. 8, p. 12)</div>
+      <div class="term"><strong>Amount of Gas:</strong> How much gas is in the container. (p. 3, p. 7, p. 9)</div>
+      <p class="muted">The End. Made by James Watson.</p>
+    </section>
+  </main>
+
+  <div class="made-with-canva">
+    Made with <a href="https://www.canva.com/" target="_blank" rel="noopener noreferrer">Canva</a>
+  </div>
+
+  <div class="nav" role="navigation" aria-label="Slide controls">
+    <button type="button" id="prevBtn">Previous</button>
+    <div class="counter" id="counter">1 / 14</div>
+    <button type="button" id="nextBtn">Next</button>
+    <a class="canva-button" href="https://www.canva.com/" target="_blank" rel="noopener noreferrer" aria-label="Open Canva">
+      <img
+        class="canva-logo"
+        src="https://public.canva.site/logo/media/dfb96cc174513093cd6ed61489ccb750.svg"
+        alt="Canva logo"
+      />
+      Canva
+    </a>
+  </div>
 
   <script>
-    async function load() {
-      const res = await fetch('/api/status');
-      const data = await res.json();
+    (function () {
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const counter = document.getElementById("counter");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const tocButtons = Array.from(document.querySelectorAll(".toc button"));
+      let current = 0;
 
-      const grid = document.getElementById('grid');
-      grid.innerHTML = '';
+      function showSlide(index) {
+        current = Math.max(0, Math.min(index, slides.length - 1));
+        slides.forEach((slide, i) => {
+          slide.classList.toggle("active", i === current);
+        });
+        counter.textContent = `${current + 1} / ${slides.length}`;
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === slides.length - 1;
+        history.replaceState(null, "", `#${slides[current].id}`);
+      }
 
-      data.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'card';
+      function indexFromHash() {
+        const hash = location.hash.replace("#", "");
+        const found = slides.findIndex((slide) => slide.id === hash);
+        return found >= 0 ? found : 0;
+      }
 
-        div.innerHTML = `
-          <h3>${item.url}</h3>
-          <div class="${item.online ? 'online' : 'offline'}">
-            ${item.online ? 'ONLINE' : 'OFFLINE'}
-          </div>
-          <div class="meta">
-            ${item.status ? 'Status: ' + item.status + '<br>' : ''}
-            ${item.error ? 'Error: ' + item.error + '<br>' : ''}
-            Latency: ${item.latency}ms<br>
-            Last Checked: ${new Date(item.checkedAt).toLocaleTimeString()}
-          </div>
-        `;
+      prevBtn.addEventListener("click", () => showSlide(current - 1));
+      nextBtn.addEventListener("click", () => showSlide(current + 1));
 
-        grid.appendChild(div);
+      tocButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const target = btn.getAttribute("data-target");
+          const index = slides.findIndex((slide) => slide.id === target);
+          if (index >= 0) showSlide(index);
+        });
       });
-    }
 
-    load();
-    setInterval(load, 10000);
+      window.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight") showSlide(current + 1);
+        if (event.key === "ArrowLeft") showSlide(current - 1);
+      });
+
+      window.addEventListener("hashchange", () => {
+        showSlide(indexFromHash());
+      });
+
+      showSlide(indexFromHash());
+    })();
   </script>
 </body>
 </html>
