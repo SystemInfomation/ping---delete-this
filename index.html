@@ -1,40 +1,40 @@
-# Safe API Status Monitor for Instructure API
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Instructure API Status Monitor</title>
+  <title>Instructure Endpoint Monitor</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #0f172a;
       color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
+      padding: 30px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
     }
 
     .card {
       background: #1e293b;
-      padding: 30px;
+      padding: 20px;
       border-radius: 16px;
-      width: 420px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      box-shadow: 0 0 12px rgba(0,0,0,0.3);
     }
 
-    h1 {
-      margin-top: 0;
-      font-size: 24px;
-    }
-
-    .status {
-      font-size: 20px;
-      margin: 15px 0;
+    .title {
+      font-size: 18px;
+      margin-bottom: 10px;
+      word-break: break-word;
     }
 
     .online {
@@ -45,85 +45,92 @@
       color: #ef4444;
     }
 
-    .details {
+    .meta {
+      margin-top: 10px;
       color: #cbd5e1;
       font-size: 14px;
-      margin-top: 10px;
-      word-break: break-word;
-    }
-
-    button {
-      margin-top: 20px;
-      background: #2563eb;
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 15px;
-    }
-
-    button:hover {
-      background: #1d4ed8;
+      line-height: 1.5;
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Instructure API Monitor</h1>
+  <h1>Instructure Endpoint Monitor</h1>
 
-    <div id="status" class="status">Checking...</div>
-
-    <div class="details" id="details"></div>
-
-    <button onclick="checkAPI()">Check Now</button>
-  </div>
+  <div class="grid" id="grid"></div>
 
   <script>
-    const API_URL = 'https://api.instructure.com';
+    const endpoints = [
+      'https://api.instructure.com',
+      'https://backend.instructure.com',
+      'https://frontend.instructure.com',
+      'https://auth.instructure.com',
+      'https://forsyth.instructure.com'
+    ];
 
-    async function checkAPI() {
-      const statusEl = document.getElementById('status');
-      const detailsEl = document.getElementById('details');
+    const grid = document.getElementById('grid');
 
-      statusEl.textContent = 'Checking...';
-      statusEl.className = 'status';
+    function createCards() {
+      endpoints.forEach((url, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.id = `card-${index}`;
+
+        card.innerHTML = `
+          <div class="title">${url}</div>
+          <div id="status-${index}">Checking...</div>
+          <div class="meta" id="meta-${index}"></div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    async function pingEndpoint(url, index) {
+      const statusEl = document.getElementById(`status-${index}`);
+      const metaEl = document.getElementById(`meta-${index}`);
 
       const start = performance.now();
 
       try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(url, {
           method: 'GET',
           mode: 'cors'
         });
 
         const latency = Math.round(performance.now() - start);
 
-        statusEl.textContent = 'API Reachable';
-        statusEl.classList.add('online');
+        statusEl.innerHTML = `<span class="online">ONLINE</span>`;
 
-        detailsEl.innerHTML = `
+        metaEl.innerHTML = `
           Status Code: ${response.status}<br>
-          Response Time: ${latency} ms<br>
+          Response Time: ${latency}ms<br>
           Last Checked: ${new Date().toLocaleTimeString()}
         `;
       } catch (error) {
-        statusEl.textContent = 'API Unreachable';
-        statusEl.classList.add('offline');
+        const latency = Math.round(performance.now() - start);
 
-        detailsEl.innerHTML = `
+        statusEl.innerHTML = `<span class="offline">OFFLINE / BLOCKED</span>`;
+
+        metaEl.innerHTML = `
           Error: ${error.message}<br>
+          Response Time: ${latency}ms<br>
           Last Checked: ${new Date().toLocaleTimeString()}
         `;
       }
     }
 
-    // Safe monitoring interval (once every 60 seconds)
-    checkAPI();
-    setInterval(checkAPI, 10);
+    function runChecks() {
+      endpoints.forEach((url, index) => {
+        pingEndpoint(url, index);
+      });
+    }
+
+    createCards();
+    runChecks();
+
+    // Check every 10 seconds
+    setInterval(runChecks, 100);
   </script>
 </body>
 </html>
-```
 
-This example performs low-frequency health checks suitable for uptime monitoring and testing without overwhelming the target service.
