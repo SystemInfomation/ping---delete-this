@@ -7,15 +7,19 @@
   <link rel="icon" type="image/svg+xml" href="https://public.canva.site/logo/media/dfb96cc174513093cd6ed61489ccb750.svg" />
   <style>
     :root {
-      --bg: #f4f6fb;
+      --bg: #eef3ff;
+      --bg-accent: #dff2ff;
       --card: #ffffff;
-      --ink: #222c3a;
-      --muted: #5f6775;
-      --line: #d4dbe8;
-      --blue: #4b66d6;
-      --orange: #d18a35;
-      --green: #2f947f;
-      --pink: #b5567a;
+      --ink: #172033;
+      --muted: #5a6578;
+      --line: #d7e1f3;
+      --blue: #3d63dd;
+      --orange: #c47a22;
+      --green: #22846f;
+      --pink: #a94970;
+      --nav-height: 76px;
+      --shadow-soft: 0 10px 30px rgba(30, 48, 82, 0.11);
+      --shadow-card: 0 8px 22px rgba(31, 41, 55, 0.09);
     }
 
     * {
@@ -24,25 +28,28 @@
 
     body {
       margin: 0;
-      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
-      background: var(--bg);
+      font-family: "Avenir Next", "Trebuchet MS", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, #ffffff 0%, rgba(255, 255, 255, 0) 35%),
+        radial-gradient(circle at 90% 12%, rgba(182, 217, 255, 0.45) 0%, rgba(182, 217, 255, 0) 38%),
+        linear-gradient(170deg, var(--bg) 0%, var(--bg-accent) 100%);
       color: var(--ink);
     }
 
     .slides {
       width: min(1100px, 94vw);
-      margin: 12px auto 88px;
+      margin: 20px auto calc(var(--nav-height) + 24px);
       position: relative;
     }
 
     .slide {
       display: none;
-      min-height: calc(100vh - 130px);
+      min-height: calc(100vh - 152px);
       background: var(--card);
-      border: 2px solid var(--line);
-      border-radius: 14px;
-      box-shadow: 0 4px 10px rgba(31, 41, 55, 0.08);
-      padding: clamp(18px, 2.4vw, 26px);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow-soft);
+      padding: clamp(20px, 2.6vw, 30px);
       position: relative;
       overflow: auto;
     }
@@ -55,62 +62,68 @@
       position: absolute;
       top: 14px;
       right: 16px;
-      font-size: 0.75rem;
-      color: #4c576c;
-      background: #f5f7fc;
-      border: 1px solid #d8dfeb;
+      font-size: 0.72rem;
+      letter-spacing: 0.02em;
+      color: #42516b;
+      background: #f5f8ff;
+      border: 1px solid #d9e4f7;
       border-radius: 999px;
-      padding: 3px 9px;
+      padding: 4px 10px;
+      font-weight: 700;
     }
 
     .slide-credit {
       position: absolute;
       left: 16px;
       bottom: 14px;
-      font-size: 0.76rem;
-      color: #5c6677;
-      background: #f7f8fc;
-      border: 1px solid #dce2ec;
+      font-size: 0.74rem;
+      color: #55627a;
+      background: #f7f9ff;
+      border: 1px solid #dce6f5;
       border-radius: 999px;
-      padding: 3px 9px;
+      padding: 4px 11px;
       font-weight: 700;
     }
 
     h1, h2, h3 {
       margin-top: 0;
       line-height: 1.2;
+      color: #16294a;
     }
 
     h1 {
-      font-size: clamp(1.8rem, 3.6vw, 2.4rem);
+      font-size: clamp(1.9rem, 3.8vw, 2.7rem);
+      letter-spacing: -0.02em;
     }
 
     h2 {
-      font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+      font-size: clamp(1.25rem, 2.5vw, 1.85rem);
+      letter-spacing: -0.01em;
     }
 
     p, li {
-      line-height: 1.55;
+      line-height: 1.62;
       font-size: clamp(0.98rem, 1.45vw, 1.04rem);
     }
 
     .subtitle {
-      color: #33415d;
+      color: #384967;
       font-size: 1.1rem;
       margin: 8px 0 4px;
     }
 
     .author {
       font-weight: 700;
-      color: #1f4368;
+      color: #255082;
       margin-bottom: 22px;
     }
 
     .hero {
-      border: 1px solid #cfd9ea;
-      border-radius: 10px;
-      padding: 16px;
-      background: #f9fbff;
+      border: 1px solid #d5e0f4;
+      border-radius: 14px;
+      padding: 18px;
+      background: linear-gradient(160deg, #fbfdff 0%, #f0f6ff 100%);
+      box-shadow: var(--shadow-card);
     }
 
     .balloons {
@@ -127,6 +140,7 @@
       border-radius: 50% 50% 45% 45%;
       border: 2px solid #344a63;
       position: relative;
+      box-shadow: inset -8px -10px 0 rgba(255, 255, 255, 0.25);
     }
 
     .balloon::after {
@@ -149,10 +163,12 @@
       display: inline-block;
       color: #f9fbff;
       border-radius: 999px;
-      padding: 5px 10px;
-      font-size: 0.78rem;
+      padding: 6px 11px;
+      font-size: 0.76rem;
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
+      letter-spacing: 0.02em;
+      box-shadow: 0 4px 10px rgba(34, 51, 84, 0.2);
     }
 
     .boyle { background: var(--blue); }
@@ -162,32 +178,34 @@
 
     .eq {
       font-family: "Menlo", "Consolas", monospace;
-      background: #f2f6ff;
-      border: 1px solid #cfdbf2;
-      border-radius: 10px;
-      padding: 10px 12px;
-      margin: 12px 0;
+      background: #f3f7ff;
+      border: 1px solid #cfdbf4;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin: 14px 0;
       font-size: 1.05rem;
+      color: #1f3561;
     }
 
     .two-col {
       display: grid;
       grid-template-columns: 1.35fr 1fr;
-      gap: 18px;
+      gap: 20px;
     }
 
     .diagram {
-      border: 1px solid #cfd8e8;
-      border-radius: 10px;
-      padding: 12px;
-      background: #fafcff;
+      border: 1px solid #d4deef;
+      border-radius: 12px;
+      padding: 14px;
+      background: #f8fbff;
+      box-shadow: var(--shadow-card);
     }
 
     .box {
-      border: 1px solid #8fa2bf;
-      border-radius: 8px;
-      padding: 9px;
-      background: #f3f7ff;
+      border: 1px solid #9db1d0;
+      border-radius: 10px;
+      padding: 10px;
+      background: #f2f7ff;
       text-align: center;
       margin: 7px 0;
     }
@@ -209,30 +227,37 @@
     .toc button {
       border: none;
       background: none;
-      color: #2758c7;
+      color: #1f4ec4;
       text-decoration: underline;
       text-underline-offset: 3px;
       cursor: pointer;
       font: inherit;
       padding: 0;
       text-align: left;
+      transition: color 0.15s ease;
+    }
+
+    .toc button:hover {
+      color: #153887;
     }
 
     .appendix-card, .term {
-      border: 1px solid #d8e0ec;
-      border-radius: 10px;
-      background: #fdfefe;
-      padding: 12px;
-      margin: 10px 0;
+      border: 1px solid #d7e2f2;
+      border-radius: 12px;
+      background: #fcfdff;
+      padding: 14px;
+      margin: 12px 0;
+      box-shadow: 0 4px 10px rgba(39, 66, 102, 0.06);
     }
 
     .calc {
       white-space: pre-wrap;
       font-family: "Menlo", "Consolas", monospace;
       font-size: 0.93rem;
-      background: #f3f7ff;
-      border-radius: 8px;
-      padding: 9px;
+      background: #f3f8ff;
+      border-radius: 10px;
+      padding: 11px;
+      border: 1px solid #d8e2f5;
     }
 
     .muted {
@@ -241,32 +266,46 @@
 
     .nav {
       position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: #ffffff;
-      border-top: 1px solid #d7deea;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 8px;
+      width: min(760px, calc(100vw - 16px));
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid #d5e1f4;
+      backdrop-filter: blur(8px);
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 12px;
-      padding: 10px;
-      z-index: 10;
+      padding: 10px 12px;
+      border-radius: 14px;
+      z-index: 30;
+      box-shadow: 0 8px 24px rgba(38, 57, 88, 0.16);
     }
 
     .nav button {
-      border: 1px solid #c5d1e5;
-      background: #fff;
-      color: #244161;
-      border-radius: 7px;
-      padding: 9px 14px;
+      border: 1px solid #c6d5ec;
+      background: linear-gradient(180deg, #ffffff 0%, #f4f8ff 100%);
+      color: #1f3f6a;
+      border-radius: 10px;
+      padding: 10px 14px;
       font-size: 0.92rem;
       cursor: pointer;
       font-weight: 600;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
     }
 
     .nav button:hover {
-      background: #f3f7ff;
+      background: #eef4ff;
+      box-shadow: 0 5px 14px rgba(50, 78, 118, 0.18);
+      transform: translateY(-1px);
+    }
+
+    .nav button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
     }
 
     .canva-button {
@@ -275,28 +314,31 @@
       gap: 8px;
       color: #0b2f4c;
       text-decoration: none;
-      border: 1px solid #c5d1e5;
-      background: #fff;
-      border-radius: 7px;
-      padding: 9px 14px;
+      border: 1px solid #c6d5ec;
+      background: linear-gradient(180deg, #ffffff 0%, #f4f8ff 100%);
+      border-radius: 10px;
+      padding: 10px 14px;
       font-size: 0.92rem;
       font-weight: 600;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
     }
 
     .canva-button:hover {
-      background: #f3f7ff;
+      background: #eef4ff;
+      box-shadow: 0 5px 14px rgba(50, 78, 118, 0.18);
+      transform: translateY(-1px);
     }
 
     .canva-logo {
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       display: block;
     }
 
     .counter {
       min-width: 110px;
       text-align: center;
-      color: #43516a;
+      color: #3f4f69;
       font-size: 0.92rem;
       font-weight: 600;
     }
@@ -304,19 +346,19 @@
     .made-with-canva {
       position: fixed;
       right: 12px;
-      bottom: 64px;
-      z-index: 20;
-      background: #ffffff;
-      border: 1px solid #d7deea;
+      bottom: calc(var(--nav-height) + 10px);
+      z-index: 40;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid #d7e2f3;
       border-radius: 999px;
       padding: 6px 10px;
       font-size: 0.82rem;
       color: #2d3a52;
-      box-shadow: 0 2px 8px rgba(31, 41, 55, 0.08);
+      box-shadow: 0 6px 16px rgba(33, 52, 81, 0.13);
     }
 
     .made-with-canva a {
-      color: #2758c7;
+      color: #1f4fc5;
       text-decoration: none;
       font-weight: 700;
     }
@@ -325,9 +367,56 @@
       text-decoration: underline;
     }
 
+    .page-link {
+      color: #1f4fc5;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .page-link:hover {
+      text-decoration: underline;
+    }
+
     @media (max-width: 860px) {
       .two-col {
         grid-template-columns: 1fr;
+      }
+
+      .slides {
+        margin-top: 12px;
+      }
+    }
+
+    @media (max-width: 700px) {
+      :root {
+        --nav-height: 138px;
+      }
+
+      .slide {
+        min-height: calc(100vh - 210px);
+      }
+
+      .nav {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px;
+      }
+
+      .counter {
+        width: 100%;
+        order: -1;
+      }
+
+      .nav button,
+      .canva-button {
+        flex: 1 1 calc(50% - 8px);
+        justify-content: center;
+      }
+
+      .made-with-canva {
+        bottom: calc(var(--nav-height) + 12px);
+        right: 8px;
       }
     }
   </style>
@@ -568,23 +657,28 @@ V2 = 2.29 L</div>
       <span class="slide-label">Slide 13</span>
       <span class="slide-credit">James Watson</span>
       <h2>Glossary (Part 1)</h2>
-      <div class="term"><strong>Boyle's Law:</strong> Pressure and volume change opposite ways when temperature is constant. (p. 3-4, p. 11)</div>
-      <div class="term"><strong>Charles' Law:</strong> Volume and temperature change together when pressure is constant. (p. 5-6, p. 11)</div>
-      <div class="term"><strong>Gay-Lussac's Law:</strong> Pressure and temperature change together when volume is constant. (p. 7-8, p. 12)</div>
-      <div class="term"><strong>Combined Gas Law:</strong> One law that connects pressure, volume, and temperature at once. (p. 9-10, p. 12)</div>
-      <div class="term"><strong>Pressure (P):</strong> How hard gas particles push on container walls. (p. 3, p. 4, p. 7, p. 8)</div>
-      <div class="term"><strong>Volume (V):</strong> The amount of space gas takes up. (p. 3-6, p. 9-10)</div>
+      <div class="term"><strong>Boyle's Law:</strong> Pressure and volume change opposite ways when temperature is constant. (<a class="page-link" href="#slide-3">p.3</a>, <a class="page-link" href="#slide-4">p.4</a>, <a class="page-link" href="#slide-11">p.11</a>)</div>
+      <div class="term"><strong>Charles' Law:</strong> Volume and temperature change together when pressure is constant. (<a class="page-link" href="#slide-5">p.5</a>, <a class="page-link" href="#slide-6">p.6</a>, <a class="page-link" href="#slide-11">p.11</a>)</div>
+      <div class="term"><strong>Gay-Lussac's Law:</strong> Pressure and temperature change together when volume is constant. (<a class="page-link" href="#slide-7">p.7</a>, <a class="page-link" href="#slide-8">p.8</a>, <a class="page-link" href="#slide-12">p.12</a>)</div>
+      <div class="term"><strong>Combined Gas Law:</strong> One law that connects pressure, volume, and temperature at once. (<a class="page-link" href="#slide-9">p.9</a>, <a class="page-link" href="#slide-10">p.10</a>, <a class="page-link" href="#slide-12">p.12</a>)</div>
+      <div class="term"><strong>Pressure (P):</strong> How hard gas particles push on the walls of a container. (<a class="page-link" href="#slide-3">p.3</a>, <a class="page-link" href="#slide-4">p.4</a>, <a class="page-link" href="#slide-7">p.7</a>, <a class="page-link" href="#slide-8">p.8</a>)</div>
+      <div class="term"><strong>Volume (V):</strong> The amount of space gas takes up. (<a class="page-link" href="#slide-3">p.3</a>, <a class="page-link" href="#slide-5">p.5</a>, <a class="page-link" href="#slide-6">p.6</a>, <a class="page-link" href="#slide-9">p.9</a>)</div>
+      <div class="term"><strong>Gas Particles:</strong> Tiny pieces of gas that move around and bump into each other and container walls. (<a class="page-link" href="#slide-3">p.3</a>, <a class="page-link" href="#slide-5">p.5</a>, <a class="page-link" href="#slide-7">p.7</a>)</div>
+      <div class="term"><strong>Constant:</strong> A value that stays the same while other values change. (<a class="page-link" href="#slide-3">p.3</a>, <a class="page-link" href="#slide-7">p.7</a>, <a class="page-link" href="#slide-10">p.10</a>)</div>
     </section>
 
     <section class="slide" id="slide-14">
       <span class="slide-label">Slide 14</span>
       <span class="slide-credit">James Watson</span>
       <h2>Glossary (Part 2)</h2>
-      <div class="term"><strong>Temperature (T):</strong> A measure of how hot or cold something is. (p. 5-10)</div>
-      <div class="term"><strong>Kelvin (K):</strong> The temperature scale used in gas law equations. (p. 5, p. 6, p. 8, p. 11-12)</div>
-      <div class="term"><strong>Atmosphere (atm):</strong> A pressure unit. (p. 4, p. 10, p. 11)</div>
-      <div class="term"><strong>kPa:</strong> Kilopascal, another pressure unit. (p. 8, p. 12)</div>
-      <div class="term"><strong>Amount of Gas:</strong> How much gas is in the container. (p. 3, p. 7, p. 9)</div>
+      <div class="term"><strong>Temperature (T):</strong> A measure of how hot or cold something is. (<a class="page-link" href="#slide-5">p.5</a>, <a class="page-link" href="#slide-6">p.6</a>, <a class="page-link" href="#slide-8">p.8</a>, <a class="page-link" href="#slide-10">p.10</a>)</div>
+      <div class="term"><strong>Kelvin (K):</strong> The temperature scale used in gas law equations. (<a class="page-link" href="#slide-5">p.5</a>, <a class="page-link" href="#slide-6">p.6</a>, <a class="page-link" href="#slide-8">p.8</a>, <a class="page-link" href="#slide-11">p.11</a>)</div>
+      <div class="term"><strong>Atmosphere (atm):</strong> A pressure unit. (<a class="page-link" href="#slide-4">p.4</a>, <a class="page-link" href="#slide-10">p.10</a>, <a class="page-link" href="#slide-11">p.11</a>)</div>
+      <div class="term"><strong>kPa:</strong> Kilopascal, another pressure unit. (<a class="page-link" href="#slide-8">p.8</a>, <a class="page-link" href="#slide-12">p.12</a>)</div>
+      <div class="term"><strong>Amount of Gas:</strong> How much gas is in the container. (<a class="page-link" href="#slide-3">p.3</a>, <a class="page-link" href="#slide-7">p.7</a>, <a class="page-link" href="#slide-9">p.9</a>)</div>
+      <div class="term"><strong>Inverse Relationship:</strong> When one variable goes up while the other goes down. (<a class="page-link" href="#slide-3">p.3</a>, <a class="page-link" href="#slide-4">p.4</a>)</div>
+      <div class="term"><strong>Direct Relationship:</strong> When two variables increase or decrease together. (<a class="page-link" href="#slide-5">p.5</a>, <a class="page-link" href="#slide-6">p.6</a>, <a class="page-link" href="#slide-8">p.8</a>)</div>
+      <div class="term"><strong>Rigid Container:</strong> A container that cannot expand, so volume stays fixed. (<a class="page-link" href="#slide-7">p.7</a>, <a class="page-link" href="#slide-8">p.8</a>)</div>
       <p class="muted">The End. Made by James Watson.</p>
     </section>
   </main>
