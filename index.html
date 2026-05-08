@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Instructure Monitor</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #0f172a;
+      color: white;
+      padding: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 15px;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 12px;
+    }
+
+    .online { color: #22c55e; }
+    .offline { color: #ef4444; }
+
+    .meta {
+      font-size: 13px;
+      color: #cbd5e1;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Instructure Status Monitor</h1>
+  <div class="grid" id="grid"></div>
+
+  <script>
+    async function load() {
+      const res = await fetch('/api/status');
+      const data = await res.json();
+
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+
+      data.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'card';
+
+        div.innerHTML = `
+          <h3>${item.url}</h3>
+          <div class="${item.online ? 'online' : 'offline'}">
+            ${item.online ? 'ONLINE' : 'OFFLINE'}
+          </div>
+          <div class="meta">
+            ${item.status ? 'Status: ' + item.status + '<br>' : ''}
+            ${item.error ? 'Error: ' + item.error + '<br>' : ''}
+            Latency: ${item.latency}ms<br>
+            Last Checked: ${new Date(item.checkedAt).toLocaleTimeString()}
+          </div>
+        `;
+
+        grid.appendChild(div);
+      });
+    }
+
+    load();
+    setInterval(load, 10000);
+  </script>
+</body>
+</html>
