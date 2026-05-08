@@ -23,7 +23,7 @@ async function pingAll() {
 
       try {
         const res = await axios.get(url, {
-          timeout: 5000,
+          timeout: 3000,
           validateStatus: () => true
         });
 
@@ -50,7 +50,7 @@ async function pingAll() {
 }
 
 pingAll();
-setInterval(pingAll, 5000);
+setInterval(pingAll, 3000);
 
 app.get('/api/status', (req, res) => {
   res.json(statusData);
